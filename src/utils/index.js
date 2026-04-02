@@ -35,3 +35,8 @@ export function isObject(value) {
 export function isChanged(oldObj, newObj) {
   return !Object.is(oldObj, newObj);
 }
+
+/**
+ * @description: 定义一个特殊的Symbol值，用来标识原始对象
+ */
+export const RAW = Symbol("raw");
