@@ -1,0 +1,21 @@
+{
+  "name": "vue-reactivity-system-implementation",
+  "version": "1.0.0",
+  "description": "手写响应式系统，用来理解Vue的响应式的实现逻辑",
+  "main": "index.js",
+  "type":"module",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Core10900/Vue-Reactivity-System-Implementation.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Core10900/Vue-Reactivity-System-Implementation/issues"
+  },
+  "homepage": "https://github.com/Core10900/Vue-Reactivity-System-Implementation#readme"
+}
