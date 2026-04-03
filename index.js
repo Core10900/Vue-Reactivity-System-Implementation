@@ -3,6 +3,7 @@
 import { reactive } from "./src/reactive.js";
 import { effect } from "./src/effect/effect.js";
 import computed from "./src/computed.js";
+import watch from "./src/watch.js";
 
 const baseObj = {
   name: "张三",
@@ -137,15 +138,31 @@ const baseObj = {
 // console.log(sum.value);
 
 // 计算属性测试2
-const state = reactive(baseObj);
-const sum = computed(() => {
-  console.log("计算属性函数执行了");
-  return state.a + state.b;
-});
+// const state = reactive(baseObj);
+// const sum = computed(() => {
+//   console.log("计算属性函数执行了");
+//   return state.a + state.b;
+// });
 
-effect(() => {
-  console.log("模拟渲染函数关联了计算属性的情况");
-  console.log(sum.value);
-});
+// effect(() => {
+//   console.log("模拟渲染函数关联了计算属性的情况");
+//   console.log(sum.value);
+// });
 
-state.a++;
+// state.a++;
+
+const x = reactive(baseObj);
+watch(
+  () => {
+    return x.a + x.b;
+  },
+  (newValue, oldValue) => {
+    console.log("watch监听到变化了");
+    console.log("新值:", newValue);
+    console.log("旧值:", oldValue);
+  },
+  // {
+  //   immediate: true,
+  // },
+);
+x.a++;
