@@ -123,15 +123,29 @@ const baseObj = {
 // state.a++;
 
 // 计算属性测试1
+// const state = reactive(baseObj);
+// const sum = computed(() => {
+//   console.log("计算属性函数执行了");
+//   return state.a + state.b;
+// });
+
+// console.log(sum.value);
+// // state.a++;
+// console.log(sum.value);
+// console.log(sum.value);
+// state.a++;
+// console.log(sum.value);
+
+// 计算属性测试2
 const state = reactive(baseObj);
 const sum = computed(() => {
   console.log("计算属性函数执行了");
   return state.a + state.b;
 });
 
-console.log(sum.value);
-// state.a++;
-console.log(sum.value);
-console.log(sum.value);
+effect(() => {
+  console.log("模拟渲染函数关联了计算属性的情况");
+  console.log(sum.value);
+});
+
 state.a++;
-console.log(sum.value);

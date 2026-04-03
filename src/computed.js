@@ -1,4 +1,7 @@
 import { effect } from "./effect/effect.js";
+import track from "./effect/track.js";
+import trigger from "./effect/trigger.js";
+import { TrackOpTypes, TriggerOpTypes } from "./utils/index.js";
 
 /**
  * conputed函数的简易实现
@@ -12,6 +15,7 @@ export default function computed(getterOrOptions) {
     lazy: true, // 计算属性的effect函数是一个惰性函数，只有在访问计算属性的value属性的时候才会执行
     scheduler() {
       dirty = true; // 当计算属性依赖的响应式数据发生变化的时候，把dirty设置为true，表示需要重新计算了
+      trigger(obj, TriggerOpTypes.SET, "value"); // 触发计算属性的更新
     },
   });
 
@@ -20,6 +24,7 @@ export default function computed(getterOrOptions) {
   // 返回一个类似ref对象的对象
   let obj = {
     get value() {
+      track(obj, TrackOpTypes.GET, "value");
       if (dirty) {
         value = effectFn(); // 访问计算属性的value属性的时候执行effect函数，得到计算属性的值
         dirty = false; // 计算完成后把dirty设置为false，表示不需要重新计算了
