@@ -2,6 +2,7 @@
 
 import { reactive } from "./src/reactive.js";
 import { effect } from "./src/effect/effect.js";
+import computed from "./src/computed.js";
 
 const baseObj = {
   name: "张三",
@@ -96,27 +97,41 @@ const baseObj = {
 
 // 测试3 - 添加回调
 
-const state = reactive(baseObj);
-const testFn = () => {
-  console.log("effect 函数执行了");
-  state.a = state.a + 1;
-  return state.a; // 添加返回值
-};
+// const state = reactive(baseObj);
+// const testFn = () => {
+//   console.log("effect 函数执行了");
+//   state.a = state.a + 1;
+//   return state.a; // 添加返回值
+// };
 
-let isRunning = false; // 用来控制是否正在执行环境函数，防止重复执行
-const effectFn = effect(testFn, {
-  lazy: true,
-  scheduler(fn) {
-    Promise.resolve().then(() => {
-      if (!isRunning) {
-        isRunning = true;
-        fn();
-      }
-    });
-  },
+// let isRunning = false; // 用来控制是否正在执行环境函数，防止重复执行
+// const effectFn = effect(testFn, {
+//   lazy: true,
+//   scheduler(fn) {
+//     Promise.resolve().then(() => {
+//       if (!isRunning) {
+//         isRunning = true;
+//         fn();
+//       }
+//     });
+//   },
+// });
+
+// effectFn();
+// state.a++;
+// state.a++;
+// state.a++;
+
+// 计算属性测试1
+const state = reactive(baseObj);
+const sum = computed(() => {
+  console.log("计算属性函数执行了");
+  return state.a + state.b;
 });
 
-effectFn();
+console.log(sum.value);
+// state.a++;
+console.log(sum.value);
+console.log(sum.value);
 state.a++;
-state.a++;
-state.a++;
+console.log(sum.value);
