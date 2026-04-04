@@ -161,8 +161,9 @@ watch(
     console.log("新值:", newValue);
     console.log("旧值:", oldValue);
   },
-  // {
-  //   immediate: true,
-  // },
+  {
+    once: true,
+  },
 );
 x.a++;
+x.a++; // 第二次修改，once模式下不应触发回调

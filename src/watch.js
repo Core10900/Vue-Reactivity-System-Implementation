@@ -16,11 +16,16 @@ export default function watch(source, cb, options = {}) {
   }
 
   let oldValue, newValue; // 用来保存旧值和最新值
+  let unwatch; // 用来保存停止监听的函数，once模式下回调执行后自动调用
 
   const job = () => {
     newValue = effectFn();
     cb(newValue, oldValue); // 执行回调函数，传入新值和旧值
     oldValue = newValue;
+    // 如果配置了once，回调执行一次后自动停止监听
+    if (options.once) {
+      unwatch();
+    }
   };
 
   const effectFn = effect(getter, {
@@ -42,10 +47,12 @@ export default function watch(source, cb, options = {}) {
     oldValue = effectFn();
   }
 
-  return () => {
+  unwatch = () => {
     // 停止监听
     cleanup(effectFn);
   };
+
+  return unwatch;
 }
 
 /**
